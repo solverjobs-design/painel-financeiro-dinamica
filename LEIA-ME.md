@@ -4,7 +4,7 @@ Painel online com a análise financeira de Dinâmica Assessoria, Dinâmica Hospe
 
 - **Link do painel:** https://solverjobs-design.github.io/painel-financeiro-dinamica/
 - **Repositório:** https://github.com/solverjobs-design/painel-financeiro-dinamica
-- **Acesso:** o link pede uma senha. Solver e cliente usam a mesma. Com "Lembrar neste aparelho" marcado, a senha não é pedida de novo naquele navegador. O botão **Sair** apaga a senha guardada.
+- **Acesso:** sem senha, por decisão da Solver em 04/11/2026: quem tiver o link vê o painel inteiro. O link não deve circular fora da Solver e do cliente. Para voltar a pedir senha, veja "Voltar a pedir senha" em Tarefas do dia a dia.
 
 ## O que o painel mostra
 
@@ -30,9 +30,9 @@ Para o painel ficar bom, vale manter três hábitos na planilha:
 1. Todo dia às 6h, o **GitHub Actions** roda o `gerar.py`.
 2. O script baixa a planilha pelo link de compartilhamento (secret `PLANILHA_URL`) e lê três abas: **Fluxo BASE** (lançamentos), **Creditos** (contratos) e **de_para** (categoria de cada subcategoria, usada quando a categoria está em branco). As demais abas (tabelas dinâmicas, cópias, "Detalhes") não entram, para não contar nada em dobro.
 3. Ele confere os dados: abas e colunas obrigatórias, quantidade mínima de lançamentos. **Se algo estiver errado, ele para e o painel do dia anterior continua no ar.** O GitHub manda um e-mail de falha para o dono do repositório.
-4. Com os dados ok, ele classifica cada lançamento (natureza, categoria gerencial, conta, cartão, PF/PJ, fixo/variável, imposto, contrato de empréstimo), aplica as regras abaixo, monta o painel a partir do `modelo.html`, **criptografa o conteúdo com a senha** (AES-256) e publica no **GitHub Pages**.
+4. Com os dados ok, ele classifica cada lançamento (natureza, categoria gerencial, conta, cartão, PF/PJ, fixo/variável, imposto, contrato de empréstimo), aplica as regras abaixo, monta o painel a partir do `modelo.html` e publica no **GitHub Pages**. Com `"senha": true` no `config.json`, o conteúdo sai criptografado com a senha (AES-256) e o link abre numa tela de senha.
 
-O repositório guarda só o código e as regras. Os dados da planilha não ficam no repositório nem nos logs, e o painel publicado só é legível com a senha.
+O repositório guarda só o código e as regras. Os dados da planilha não ficam no repositório nem nos logs. Atenção: com o painel sem senha, os números ficam legíveis para qualquer pessoa que abrir o link.
 
 ### Regras de tratamento (todas automáticas)
 
@@ -54,7 +54,8 @@ O repositório guarda só o código e as regras. Os dados da planilha não ficam
 | Ver se rodou | GitHub → aba **Actions** (verde = ok, vermelho = falhou) |
 | Pausar a atualização | Actions → Atualizar painel → menu **⋯** → **Disable workflow** |
 | Retomar | Actions → Atualizar painel → **Enable workflow** |
-| Trocar a senha | Settings → Secrets and variables → Actions → `PAINEL_SENHA` → **Update**. Depois rode **Run workflow**. Quem marcou "lembrar" terá que digitar a senha nova. |
+| Voltar a pedir senha | Em `config.json`, troque `"senha": false` por `"senha": true`. A senha usada é a do secret `PAINEL_SENHA` (já cadastrado). A mudança vale assim que o commit é enviado. |
+| Trocar a senha (com senha ligada) | Settings → Secrets and variables → Actions → `PAINEL_SENHA` → **Update**. Depois rode **Run workflow**. Quem marcou "lembrar" terá que digitar a senha nova. |
 | Trocar o arquivo da planilha | Gere um novo link "qualquer pessoa com o link" no SharePoint e atualize o secret `PLANILHA_URL`. Depois rode **Run workflow**. |
 | Mudar o horário | Em `.github/workflows/atualizar.yml`, altere `cron: "0 9 * * *"`. O horário é UTC: Brasília + 3 h (6h → 9, 7h → 10). |
 | Renomear uma aba | Em `config.json`, ajuste `"abas"`. |
@@ -67,7 +68,7 @@ O repositório guarda só o código e as regras. Os dados da planilha não ficam
 **Secrets do repositório** (Settings → Secrets and variables → Actions → New repository secret):
 
 - `PLANILHA_URL`: link de compartilhamento da planilha no SharePoint ("qualquer pessoa com o link pode exibir").
-- `PAINEL_SENHA`: senha do painel (mínimo de 8 caracteres; de preferência 4 palavras aleatórias).
+- `PAINEL_SENHA`: senha do painel (mínimo de 8 caracteres; de preferência 4 palavras aleatórias). Só é usada com `"senha": true` no `config.json`.
 
 **Planilha:** compartilhada no SharePoint como "qualquer pessoa com o link". Quem tiver esse link consegue baixar a planilha, por isso ele fica guardado só no secret e não deve circular. Se a TI da Dinâmica desligar esse tipo de link, o caminho é um aplicativo no Microsoft Entra ID com permissão de leitura (exige um administrador da Microsoft 365 do cliente).
 
@@ -85,16 +86,16 @@ O repositório guarda só o código e as regras. Os dados da planilha não ficam
 
 ```bash
 pip install -r requirements.txt
-PAINEL_SENHA=uma-senha-de-teste python gerar.py --xlsx copia-da-planilha.xlsx
+python gerar.py --xlsx copia-da-planilha.xlsx
 ```
 
-O resultado fica em `site/index.html`. Abra-o por um servidor local (por exemplo, `python -m http.server --directory site`), porque a descriptografia exige `https` ou `localhost`. Com `--json dados.json` o script grava também os dados tratados, sem criptografia, para conferência (não suba esse arquivo).
+O resultado fica em `site/index.html`. Com a senha ligada, rode com `PAINEL_SENHA=uma-senha-de-teste` e abra por um servidor local (por exemplo, `python -m http.server --directory site`), porque a descriptografia exige `https` ou `localhost`. Com `--json dados.json` o script grava também os dados tratados, sem criptografia, para conferência (não suba esse arquivo).
 
 ## Arquivos
 
 | Arquivo | Para quê |
 |---|---|
-| `config.json` | abas, empresas, plano de contas e demais regras de classificação |
-| `gerar.py` | baixa a planilha, valida, trata e gera o painel criptografado |
+| `config.json` | senha ligada ou não, abas, empresas, plano de contas e demais regras de classificação |
+| `gerar.py` | baixa a planilha, valida, trata e gera o painel (criptografado quando a senha está ligada) |
 | `modelo.html` | layout, gráficos, tela de senha e textos do painel |
 | `.github/workflows/atualizar.yml` | agendamento diário e publicação |

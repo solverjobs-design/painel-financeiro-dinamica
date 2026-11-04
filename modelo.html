@@ -575,6 +575,7 @@ function mostrar(D) {
 }
 async function iniciar() {
   const lg = document.getElementById('login'), msg = document.getElementById('lgMsg'), f = document.getElementById('fLogin');
+  if (CIFRA && CIFRA.aberto) { document.getElementById('bSair').hidden = true; mostrar(CIFRA.aberto); return; }  // painel sem senha
   const logo = document.querySelector('.hdr img'); if (logo) document.getElementById('lgLogo').src = logo.src;
   lg.hidden = false;
   if (!CIFRA) { msg.textContent = 'O painel ainda não foi gerado.'; f.querySelectorAll('input,button').forEach(e => e.disabled = true); return; }
@@ -600,7 +601,7 @@ async function iniciar() {
   });
 }
 document.getElementById('bSair').addEventListener('click', () => { lsSet(null); location.reload(); });
-iniciar();
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar); else iniciar();
 </script>
 <script type="text/plain" id="appjs">
 'use strict';

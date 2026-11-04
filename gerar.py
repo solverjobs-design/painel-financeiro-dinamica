@@ -787,15 +787,19 @@ def criptografar(texto, senha):
 
 
 def gravar(D, cfg, saida):
-    # espaços e quebras de linha nas pontas costumam entrar quando a senha é colada no GitHub; o painel faz o mesmo ajuste
-    senha = unicodedata.normalize('NFC', os.environ.get('PAINEL_SENHA', '').strip())
-    if len(senha) < 8:
-        raise ErroPainel('o secret PAINEL_SENHA não está cadastrado ou tem menos de 8 caracteres')
     modelo = (RAIZ / 'modelo.html').read_text(encoding='utf-8')
     if '/*__CIFRA__*/null' not in modelo:
         raise ErroPainel('modelo.html sem o marcador /*__CIFRA__*/null')
-    cifra = criptografar(json.dumps(D, ensure_ascii=False, separators=(',', ':')), senha)
-    pagina = modelo.replace('/*__CIFRA__*/null', json.dumps(cifra)).replace('__TITULO__', html.escape(cfg.get('titulo', 'Painel')))
+    if cfg.get('senha', True):
+        # espaços e quebras de linha nas pontas costumam entrar quando a senha é colada no GitHub; o painel faz o mesmo ajuste
+        senha = unicodedata.normalize('NFC', os.environ.get('PAINEL_SENHA', '').strip())
+        if len(senha) < 8:
+            raise ErroPainel('o secret PAINEL_SENHA não está cadastrado ou tem menos de 8 caracteres')
+        cifra = criptografar(json.dumps(D, ensure_ascii=False, separators=(',', ':')), senha)
+    else:
+        cifra = {'aberto': D}  # "senha": false no config.json: quem tiver o link vê o painel
+    bloco = json.dumps(cifra, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
+    pagina = modelo.replace('/*__CIFRA__*/null', bloco).replace('__TITULO__', html.escape(cfg.get('titulo', 'Painel')))
     saida.mkdir(parents=True, exist_ok=True)
     (saida / 'index.html').write_text(pagina, encoding='utf-8')
     (saida / 'robots.txt').write_text('User-agent: *\nDisallow: /\n', encoding='utf-8')
