@@ -590,7 +590,7 @@ async function iniciar() {
   f.addEventListener('submit', async ev => {
     ev.preventDefault(); err.textContent = ''; bt.disabled = true; bt.textContent = 'Abrindo…';
     try {
-      const chave = await derivar(inp.value);
+      const chave = await derivar(inp.value.trim().normalize('NFC'));
       const D = await abrir(chave);
       if (document.getElementById('lembrar').checked) lsSet(b64e(await crypto.subtle.exportKey('raw', chave)));
       mostrar(D);

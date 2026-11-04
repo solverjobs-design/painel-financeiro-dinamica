@@ -787,7 +787,8 @@ def criptografar(texto, senha):
 
 
 def gravar(D, cfg, saida):
-    senha = os.environ.get('PAINEL_SENHA', '')
+    # espaços e quebras de linha nas pontas costumam entrar quando a senha é colada no GitHub; o painel faz o mesmo ajuste
+    senha = unicodedata.normalize('NFC', os.environ.get('PAINEL_SENHA', '').strip())
     if len(senha) < 8:
         raise ErroPainel('o secret PAINEL_SENHA não está cadastrado ou tem menos de 8 caracteres')
     modelo = (RAIZ / 'modelo.html').read_text(encoding='utf-8')
