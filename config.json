@@ -1,0 +1,112 @@
+{
+  "titulo": "Dinâmica · Análise financeira",
+  "segredo_planilha": "PLANILHA_URL",
+  "abas": {
+    "fluxo": "Fluxo BASE",
+    "creditos": "Creditos",
+    "de_para": "de_para"
+  },
+  "ano": "auto",
+  "linhas_minimas": 2000,
+  "empresas": ["ASSESSORIA", "HOSPEDAGEM", "PSICOLOGIA"],
+  "nomes_do_grupo": ["DINAMICA"],
+
+  "plano_de_contas": [
+    ["1",       "Receitas de hospedagem",                                         "OPER", "01"],
+    ["2",       "Deduções / impostos sobre receita",                              "OPER", "02"],
+    ["3.1",     "Custos com alojamento",                                          "OPER", "03.1"],
+    ["3.2",     "Utilidades (água, luz, internet)",                               "OPER", "03.2"],
+    ["3.3",     "Estrutura do imóvel",                                            "OPER", "03.3"],
+    ["3.4",     "Serviços operacionais",                                          "OPER", "03.4"],
+    ["4",       "Custos com pessoal",                                             "OPER", "04"],
+    ["5.1",     "Administrativo",                                                 "OPER", "05.1"],
+    ["5.2",     "Comercial",                                                      "OPER", "05.2"],
+    ["5.3",     "Viagens e eventos",                                              "OPER", "05.3"],
+    ["6",       "Despesas com veículos",                                          "OPER", "06"],
+    ["7.1",     "Receitas financeiras",                                           "OPER", "07.1"],
+    ["7.2",     "Despesas financeiras",                                           "OPER", "07.2"],
+    ["8",       "Impostos sobre o lucro",                                         "OPER", "08"],
+    ["9",       "Movimentações internas",                                         "INT",  "09"],
+    ["10",      "Pró-labore",                                                     "SOC",  "10.1"],
+    ["11.1",    "Movimentações internas",                                         "INT",  "09"],
+    ["11.1.03", "Aplicações e resgates",                                          "APL",  "11.1"],
+    ["11.1.04", "Aplicações e resgates",                                          "APL",  "11.1"],
+    ["11.6",    "Cartão de crédito (fatura)",                                     "OPER", "11.6"],
+    ["12.2",    "Custos com pessoal",                                             "OPER", "04"],
+    ["12.3",    "Obrigações tributárias (impostos a recolher e parcelamentos)",   "OPER", "12.3"],
+    ["12.4",    "Empréstimos e financiamentos",                                   "EMP",  "12.4"],
+    ["12.5",    "Outras obrigações (cauções, devoluções)",                        "OUT",  "12.9"],
+    ["12.5.04", "Consórcios",                                                     "EMP",  "12.5"],
+    ["12.5.05", "Retiradas / despesas pessoais de sócios",                        "SOC",  "10.2"],
+    ["12.6",    "Mútuo entre Assessoria e Hospedagem",                            "MUT",  "12.6"],
+    ["13",      "Distribuição de lucros",                                         "SOC",  "10.3"],
+    ["14",      "Outras receitas e despesas",                                     "OUT",  "14"]
+  ],
+  "regras_por_texto": [
+    ["RETIRADA",                  "Retiradas / despesas pessoais de sócios", "SOC", "10.2"],
+    ["DESPESAS PARTICULARES",     "Retiradas / despesas pessoais de sócios", "SOC", "10.2"],
+    ["DISTRIBUICAO DE LUCROS",    "Distribuição de lucros",                  "SOC", "10.3"],
+    ["DL",                        "Distribuição de lucros",                  "SOC", "10.3"],
+    ["LIBERACAO CREDITO",         "Empréstimos e financiamentos",            "EMP", "12.4"],
+    ["VENDA DE IMOVEL PARTICULAR","Outras obrigações (cauções, devoluções)", "OUT", "12.9"]
+  ],
+  "mutuo_com_socios": ["Mútuo com sócios", "SOC", "12.7"],
+  "renomear_subcategoria": {
+    "PIS sobre faturamento": "PIS/COFINS sobre faturamento",
+    "Cartão de Crédito a Pagar": "Fatura de cartão de crédito",
+    "RETIRADA DE SOCIOS": "Retirada de sócios",
+    "DISTRIBUIÇÃO DE LUCROS": "Distribuição de lucros",
+    "Distribuição de Lucros": "Distribuição de lucros",
+    "– ICMS a Recolher": "ICMS a Recolher"
+  },
+
+  "custos_fixos": [
+    "Aluguel de Imóveis", "IPTU", "Seguro de Imóvel", "Aluguel de Eletrodomésticos", "Locação de Equipamentos",
+    "Internet", "TV / Streaming", "Telefonia",
+    "Salários", "INSS Patronal", "FGTS Patronal", "Benefícios (VA, VT)", "Saúde e Segurança", "Seguro de Vida",
+    "Contabilidade", "Consultorias", "Jurídico", "Custas Processuais", "Sistema de Gestão", "Taxas e Serviços de Entidades",
+    "Assessoria de Marketing", "Locação de Veículos", "Seguros de Veículos", "IPVA", "Tarifas Bancárias",
+    "Consórcio a Pagar", "Contrato Rotativo", "Amortização de Empréstimos",
+    "ISS Parcelado a Pagar", "Simples Nacional Parcelado", "CSLL e IRPJ Parcelado", "Pró-labore"
+  ],
+  "impostos": [
+    ["IOF",              ["IOF"]],
+    ["IRRF",             ["IRRF"]],
+    ["IRPJ/CSLL",        ["IRPJ", "CSLL"]],
+    ["PIS/COFINS",       ["PIS", "COFINS"]],
+    ["INSS",             ["INSS"]],
+    ["FGTS",             ["FGTS"]],
+    ["ISS",              ["ISS"]],
+    ["Simples Nacional", ["SIMPLES NACIONAL"]],
+    ["IPVA",             ["IPVA"]],
+    ["ICMS",             ["ICMS"]],
+    ["IPTU",             ["IPTU"]],
+    ["Taxas e alvarás",  ["ALVARA", "ALVARAS"]]
+  ],
+
+  "bancos": {
+    "SICREDI":               ["Conta Sicredi",       "Conta corrente",    ""],
+    "CEF":                   ["Conta Caixa (CEF)",   "Conta corrente",    ""],
+    "SANTANDER":             ["Conta Santander",     "Conta corrente",    ""],
+    "C. CREDITO SICREDI":    ["Cartão Sicredi",      "Cartão de crédito", "Sicredi"],
+    "C. CREDITO CEF ELO":    ["Cartão Caixa Elo",    "Cartão de crédito", "Caixa Elo"],
+    "C. CREDITO CEF MASTER": ["Cartão Caixa Master", "Cartão de crédito", "Caixa Master"],
+    "CARTAO CEF-MASTER":     ["Cartão Caixa Master", "Cartão de crédito", "Caixa Master"]
+  },
+  "cartao_pelo_nome": [
+    ["XP", "XP"], ["SANTANDER", "Santander"], ["ELO", "Caixa Elo"], ["MASTER", "Caixa Master"],
+    ["CAIXA", "Caixa Master"], ["CEF", "Caixa Master"], ["SICREDI", "Sicredi"]
+  ],
+  "credores": [
+    ["SICREDI", "Sicredi"], ["CEF", "Caixa (CEF)"], ["CAIXA", "Caixa (CEF)"], ["RAPIDIUM", "Rapidium"],
+    ["SANTANDER", "Santander"], ["BRADESCO", "Bradesco"], ["ITAU", "Itaú"], ["BANCO DO BRASIL", "Banco do Brasil"]
+  ],
+  "apelidos": [
+    ["Mercado Livre / Mercado Pago", ["MERCADOLIVRE", "MERCADO LIVRE", "MERCADOPAGO", "MERCADO PAGO", "MP "]],
+    ["Amazon", ["AMAZON"]],
+    ["Detran", ["DETRAN"]],
+    ["Tokio Marine", ["TOKIO MARINE"]],
+    ["Uber", ["UBER"]],
+    ["iFood", ["IFOOD"]]
+  ]
+}
