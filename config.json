@@ -1,6 +1,6 @@
 {
   "titulo": "Dinâmica · Análise financeira",
-  "senha": false,
+  "senha": true,
   "segredo_planilha": "PLANILHA_URL",
   "abas": {
     "fluxo": "Fluxo BASE",

@@ -4,7 +4,7 @@ Painel online com a análise financeira de Dinâmica Assessoria, Dinâmica Hospe
 
 - **Link do painel:** https://solverjobs-design.github.io/painel-financeiro-dinamica/
 - **Repositório:** https://github.com/solverjobs-design/painel-financeiro-dinamica
-- **Acesso:** sem senha, por decisão da Solver em 04/11/2026: quem tiver o link vê o painel inteiro. O link não deve circular fora da Solver e do cliente. Para voltar a pedir senha, veja "Voltar a pedir senha" em Tarefas do dia a dia.
+- **Acesso:** o link pede uma senha (secret `PAINEL_SENHA`). Solver e cliente usam a mesma. Com "Lembrar neste aparelho" marcado, a senha não é pedida de novo naquele navegador. O botão **Sair** apaga a senha guardada. Para abrir sem senha, troque `"senha": true` por `false` no `config.json` (aí quem tiver o link vê tudo).
 
 ## O que o painel mostra
 
@@ -32,7 +32,7 @@ Para o painel ficar bom, vale manter três hábitos na planilha:
 3. Ele confere os dados: abas e colunas obrigatórias, quantidade mínima de lançamentos. **Se algo estiver errado, ele para e o painel do dia anterior continua no ar.** O GitHub manda um e-mail de falha para o dono do repositório.
 4. Com os dados ok, ele classifica cada lançamento (natureza, categoria gerencial, conta, cartão, PF/PJ, fixo/variável, imposto, contrato de empréstimo), aplica as regras abaixo, monta o painel a partir do `modelo.html` e publica no **GitHub Pages**. Com `"senha": true` no `config.json`, o conteúdo sai criptografado com a senha (AES-256) e o link abre numa tela de senha.
 
-O repositório guarda só o código e as regras. Os dados da planilha não ficam no repositório nem nos logs. Atenção: com o painel sem senha, os números ficam legíveis para qualquer pessoa que abrir o link.
+O repositório guarda só o código e as regras. Os dados da planilha não ficam no repositório nem nos logs. Com a senha ligada, o painel publicado só é legível com ela; se a senha for desligada, os números ficam legíveis para qualquer pessoa que abrir o link.
 
 ### Regras de tratamento (todas automáticas)
 
@@ -54,7 +54,7 @@ O repositório guarda só o código e as regras. Os dados da planilha não ficam
 | Ver se rodou | GitHub → aba **Actions** (verde = ok, vermelho = falhou) |
 | Pausar a atualização | Actions → Atualizar painel → menu **⋯** → **Disable workflow** |
 | Retomar | Actions → Atualizar painel → **Enable workflow** |
-| Voltar a pedir senha | Em `config.json`, troque `"senha": false` por `"senha": true`. A senha usada é a do secret `PAINEL_SENHA` (já cadastrado). A mudança vale assim que o commit é enviado. |
+| Ligar ou desligar a senha | Em `config.json`, `"senha": true` (pede a senha do secret `PAINEL_SENHA`) ou `false` (abre direto pelo link). A mudança vale assim que o commit é enviado. |
 | Trocar a senha (com senha ligada) | Settings → Secrets and variables → Actions → `PAINEL_SENHA` → **Update**. Depois rode **Run workflow**. Quem marcou "lembrar" terá que digitar a senha nova. |
 | Trocar o arquivo da planilha | Gere um novo link "qualquer pessoa com o link" no SharePoint e atualize o secret `PLANILHA_URL`. Depois rode **Run workflow**. |
 | Mudar o horário | Em `.github/workflows/atualizar.yml`, altere `cron: "0 9 * * *"`. O horário é UTC: Brasília + 3 h (6h → 9, 7h → 10). |
